@@ -15,13 +15,13 @@ var getMessage = function (a, b) {
     if (Array.isArray(b)) {
       for (var i=0; i < a.length; i++) {
         square += a[i] * b[i];
-        return 'Общая площадь артефактов сжатия: ' + square + ' пикселей';
       }
+      return 'Общая площадь артефактов сжатия: ' + square + ' пикселей';
     } else {
       for (var i=0; i < a.length; i++) {
         sum += a[i];
-        return 'Количество красных точек во всех строчках изображения: ' + sum;
       }
+      return 'Количество красных точек во всех строчках изображения: ' + sum;
     }
   }
 };
