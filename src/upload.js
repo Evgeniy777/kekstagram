@@ -72,7 +72,14 @@
    * @return {boolean}
    */
   function resizeFormIsValid() {
-    return true;
+    var sizeLeft = document.getElementById("resize-x").value;
+    var sizeTop = document.getElementById("resize-y").value;
+    var sizeSide = document.getElementById("resize-size").value;
+    var widthX = currentResizer._image.naturalWidth;
+    if ((sizeLeft + sizeSide) > currentResizer._image.naturalWidth || (sizeTop + sizeSide) > currentResizer._image.naturalHeight || sizeLeft < 0 || sizeTop < 0)
+      return false;
+    else
+      return true;
   }
 
   /**
