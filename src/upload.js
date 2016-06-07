@@ -79,10 +79,11 @@
     var fwdBtn = document.getElementById("resize-fwd");
     if ((sizeLeft + sizeSide) > currentResizer._image.naturalWidth || (sizeTop + sizeSide) > currentResizer._image.naturalHeight || sizeLeft < 0 || sizeTop < 0) {
       fwdBtn.setAttribute("disabled","disabled");
-    }
       return false;
-    else
+    } else {    
+      fwdBtn.removeAttribute("disabled");
       return true;
+    }
   }
 
   /**
