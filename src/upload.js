@@ -80,14 +80,28 @@
     }
     return true;
   }
-
-  var fwdBtn = document.getElementById('resize-fwd');
-  if (resizeFormIsValid()) {
-    fwdBtn.removeAttribute('disabled');
-  } else {
-    fwdBtn.setAttribute('disabled', 'disabled');
+  function addAtrDisabled() {
+    var fwdBtn = document.getElementById('resize-fwd');
+    if (resizeFormIsValid) {
+      fwdBtn.removeAttribute('disabled');
+      console.log('abled');
+    } else {
+      fwdBtn.setAttribute('disabled', 'disabled');
+    }
   }
-
+  addAtrDisabled();
+  var inputLeft = document.getElementById('resize-x');
+  var inputTop = document.getElementById('resize-y');
+  var inputSide = document.getElementById('resize-size');
+  inputLeft.oninput = function() {
+    console.log(inputLeft.value);
+  };
+  inputTop.oninput = function() {
+    console.log(inputTop.value);
+  };
+  inputSide.oninput = function() {
+    console.log(inputSide.value);
+  };
   /**
    * Форма загрузки изображения.
    * @type {HTMLFormElement}
