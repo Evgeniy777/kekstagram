@@ -71,10 +71,34 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+  var fwdBtn = document.getElementById('resize-fwd');
+  var inputSet = document.querySelector('.upload-resize-controls');
+  var inputs = inputSet.querySelectorAll('input');
   function resizeFormIsValid() {
-    return true;
+    var sizeLeft = inputs[0].value;
+    var sizeTop = inputs[1].value;
+    var sizeSide = inputs[2].value;
+    if ((sizeLeft + sizeSide) > currentResizer._image.naturalWidth ||
+        (sizeTop + sizeSide) > currentResizer._image.naturalHeight ||
+        sizeLeft < 0 ||
+        sizeTop < 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
-
+  for(var i = 0; i < inputs.length; i++) {
+    inputs[i].oninput = function() {
+      addAtrDisabled();
+    };
+  }
+  function addAtrDisabled() {
+    if (resizeFormIsValid()) {
+      fwdBtn.removeAttribute('disabled');
+    } else {
+      fwdBtn.setAttribute('disabled', 'disabled');
+    }
+  }
   /**
    * Форма загрузки изображения.
    * @type {HTMLFormElement}
