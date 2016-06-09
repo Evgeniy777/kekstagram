@@ -84,9 +84,6 @@
       return true;
     }
   }
-//  var inputLeft = document.getElementById('resize-x');
-//  var inputTop = document.getElementById('resize-y');
-//  var inputSide = document.getElementById('resize-size');
   var fwdBtn = document.getElementById('resize-fwd');
   var inputSet = document.querySelector('.upload-resize-controls');
   var inputs = inputSet.querySelectorAll('input');
@@ -95,15 +92,6 @@
       addAtrDisabled();
     };
   }
-//  inputLeft.oninput = function() {
-//    addAtrDisabled();
-//  };
-//  inputTop.oninput = function() {
-//    addAtrDisabled();
-//  };
-//  inputSide.oninput = function() {
-//    addAtrDisabled();
-//  };
   function addAtrDisabled() {
     if (resizeFormIsValid()) {
       fwdBtn.removeAttribute('disabled');
