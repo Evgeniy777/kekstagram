@@ -71,10 +71,13 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+  var fwdBtn = document.getElementById('resize-fwd');
+  var inputSet = document.querySelector('.upload-resize-controls');
+  var inputs = inputSet.querySelectorAll('input');
   function resizeFormIsValid() {
-    var sizeLeft = document.getElementById('resize-x').value;
-    var sizeTop = document.getElementById('resize-y').value;
-    var sizeSide = document.getElementById('resize-size').value;
+    var sizeLeft = inputs[0].value;
+    var sizeTop = inputs[1].value;
+    var sizeSide = inputs[2].value;
     if ((sizeLeft + sizeSide) > currentResizer._image.naturalWidth ||
         (sizeTop + sizeSide) > currentResizer._image.naturalHeight ||
         sizeLeft < 0 ||
@@ -84,9 +87,6 @@
       return true;
     }
   }
-  var fwdBtn = document.getElementById('resize-fwd');
-  var inputSet = document.querySelector('.upload-resize-controls');
-  var inputs = inputSet.querySelectorAll('input');
   for(var i = 0; i < inputs.length; i++) {
     inputs[i].oninput = function() {
       addAtrDisabled();
