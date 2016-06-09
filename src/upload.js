@@ -94,13 +94,13 @@
   var inputTop = document.getElementById('resize-y');
   var inputSide = document.getElementById('resize-size');
   inputLeft.oninput = function() {
-    console.log(inputLeft.value);
+    addAtrDisabled();
   };
   inputTop.oninput = function() {
-    console.log(inputTop.value);
+    addAtrDisabled();
   };
   inputSide.oninput = function() {
-    console.log(inputSide.value);
+    addAtrDisabled();
   };
   /**
    * Форма загрузки изображения.
