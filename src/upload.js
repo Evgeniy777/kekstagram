@@ -75,33 +75,29 @@
     var sizeLeft = document.getElementById('resize-x').value;
     var sizeTop = document.getElementById('resize-y').value;
     var sizeSide = document.getElementById('resize-size').value;
-    if ((sizeLeft + sizeSide) > currentResizer._image.naturalWidth || (sizeTop + sizeSide) > currentResizer._image.naturalHeight || sizeLeft < 0 || sizeTop < 0) {
+    if ((sizeLeft + sizeSide) > currentResizer._image.naturalWidth ||
+        (sizeTop + sizeSide) > currentResizer._image.naturalHeight ||
+        sizeLeft < 0 ||
+        sizeTop < 0) {
       return false;
-    }
-    return true;
-  }
-  function addAtrDisabled() {
-    var fwdBtn = document.getElementById('resize-fwd');
-    if (resizeFormIsValid) {
-      fwdBtn.removeAttribute('disabled');
-      console.log('abled');
     } else {
-      fwdBtn.setAttribute('disabled', 'disabled');
+      return true;
     }
   }
-  addAtrDisabled();
   var inputLeft = document.getElementById('resize-x');
   var inputTop = document.getElementById('resize-y');
   var inputSide = document.getElementById('resize-size');
-  inputLeft.oninput = function() {
-    addAtrDisabled();
-  };
-  inputTop.oninput = function() {
-    addAtrDisabled();
-  };
-  inputSide.oninput = function() {
-    addAtrDisabled();
-  };
+  var fwdBtn = document.getElementById('resize-fwd');
+  inputLeft.addEventListener('input', addAtrDisabled);
+  inputTop.addEventListener('input', addAtrDisabled);
+  inputSide.addEventListener('input', addAtrDisabled);
+  function addAtrDisabled() {
+    if (!resizeFormIsValid()) {
+      fwdBtn.setAttribute('disabled', 'disabled');
+    } else {
+      fwdBtn.removeAttribute('disabled');
+    }
+  }
   /**
    * Форма загрузки изображения.
    * @type {HTMLFormElement}
