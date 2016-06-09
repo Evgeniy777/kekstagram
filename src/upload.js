@@ -88,14 +88,23 @@
   var inputTop = document.getElementById('resize-y');
   var inputSide = document.getElementById('resize-size');
   var fwdBtn = document.getElementById('resize-fwd');
-  inputLeft.addEventListener('input', addAtrDisabled);
-  inputTop.addEventListener('input', addAtrDisabled);
-  inputSide.addEventListener('input', addAtrDisabled);
+//  inputLeft.addEventListener('input', addAtrDisabled);
+//  inputTop.addEventListener('input', addAtrDisabled);
+//  inputSide.addEventListener('input', addAtrDisabled);
+  inputLeft.oninput = function() {
+    addAtrDisabled();
+  };
+  inputTop.oninput = function() {
+    addAtrDisabled();
+  };
+  inputSide.oninput = function() {
+    addAtrDisabled();
+  };
   function addAtrDisabled() {
-    if (!resizeFormIsValid()) {
-      fwdBtn.setAttribute('disabled', 'disabled');
-    } else {
+    if (resizeFormIsValid()) {
       fwdBtn.removeAttribute('disabled');
+    } else {
+      fwdBtn.setAttribute('disabled', 'disabled');
     }
   }
   /**
