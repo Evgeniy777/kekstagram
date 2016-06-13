@@ -236,6 +236,19 @@
     filterForm.classList.add('invisible');
     resizeForm.classList.remove('invisible');
   };
+//
+  var browserCookies = require('browser-cookies');
+  var toDay = new Date();
+  var birthDay = 19;
+  var birthMonth = 11;
+  var birthDate = new Date(toDay.getFullYear(), birthMonth, birthDay);
+  if (toDay > birthDate) {
+    birthDate.setFullYear(toDay.getFullYear());
+  } else {
+    birthDate.setFullYear(toDay.getFullYear() - 1);
+  }
+  var expiresDate = +toDay + (toDay - birthDate);
+  var formattedExpiresDate = new Date(expiresDate).toUTCString();
 
   /**
    * Отправка формы фильтра. Возвращает в начальное состояние, предварительно
@@ -245,13 +258,16 @@
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
+    var selectedFilter = filterForm.querySelector('[name="upload-filter"]:checked').value;
+    browserCookies.set('filter', selectedFilter, {expires: formattedExpiresDate});
     cleanupResizer();
     updateBackground();
 
     filterForm.classList.add('invisible');
     uploadForm.classList.remove('invisible');
-  };
 
+    this.submit();
+  };
   /**
    * Обработчик изменения фильтра. Добавляет класс из filterMap соответствующий
    * выбранному значению в форме.
@@ -281,3 +297,4 @@
   cleanupResizer();
   updateBackground();
 })();
+
