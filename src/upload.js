@@ -238,6 +238,8 @@
   };
 //
   var browserCookies = require('browser-cookies');
+  var setDefaultFilterValue = '[value=' + browserCookies.get('filter') + ']';
+  filterForm.querySelector(setDefaultFilterValue).setAttribute('checked', 'checked');
   function setExpiresDate() {
     var toDay = new Date();
     var birthDay = 19;
