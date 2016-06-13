@@ -238,18 +238,20 @@
   };
 //
   var browserCookies = require('browser-cookies');
-  var toDay = new Date();
-  var birthDay = 19;
-  var birthMonth = 11;
-  var birthDate = new Date(toDay.getFullYear(), birthMonth, birthDay);
-  if (toDay > birthDate) {
-    birthDate.setFullYear(toDay.getFullYear());
-  } else {
-    birthDate.setFullYear(toDay.getFullYear() - 1);
+  function setExpiresDate() {
+    var toDay = new Date();
+    var birthDay = 19;
+    var birthMonth = 11;
+    var birthDate = new Date(toDay.getFullYear(), birthMonth, birthDay);
+    if (toDay > birthDate) {
+      birthDate.setFullYear(toDay.getFullYear());
+    } else {
+      birthDate.setFullYear(toDay.getFullYear() - 1);
+    }
+    var expiresDate = +toDay + (toDay - birthDate);
+    var formattedExpiresDate = new Date(expiresDate).toUTCString();
+    return formattedExpiresDate;
   }
-  var expiresDate = +toDay + (toDay - birthDate);
-  var formattedExpiresDate = new Date(expiresDate).toUTCString();
-
   /**
    * Отправка формы фильтра. Возвращает в начальное состояние, предварительно
    * записав сохраненный фильтр в cookie.
@@ -259,7 +261,7 @@
     evt.preventDefault();
 
     var selectedFilter = filterForm.querySelector('[name="upload-filter"]:checked').value;
-    browserCookies.set('filter', selectedFilter, {expires: formattedExpiresDate});
+    browserCookies.set('filter', selectedFilter, {expires: setExpiresDate()});
     cleanupResizer();
     updateBackground();
 
