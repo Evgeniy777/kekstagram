@@ -238,16 +238,12 @@
   };
 //
   var browserCookies = require('browser-cookies');
-  var setDefaultFilterValue = '[value=' + browserCookies.get('filter') + ']';
-  filterForm.querySelector(setDefaultFilterValue).setAttribute('checked', 'checked');
   function setExpiresDate() {
     var toDay = new Date();
     var birthDay = 19;
     var birthMonth = 11;
     var birthDate = new Date(toDay.getFullYear(), birthMonth, birthDay);
-    if (toDay > birthDate) {
-      birthDate.setFullYear(toDay.getFullYear());
-    } else {
+    if (toDay < birthDate) {
       birthDate.setFullYear(toDay.getFullYear() - 1);
     }
     var expiresDate = +toDay + (toDay - birthDate);
@@ -297,7 +293,12 @@
     // состояние или просто перезаписывать.
     filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
   };
-
+  function setDefaultFilter() {
+    var defaultFilterValue = '[value=' + browserCookies.get('filter') + ']';
+    filterForm.querySelector(defaultFilterValue).setAttribute('checked', 'checked');
+    filterImage.className = 'filter-image-preview ' + 'filter-' + browserCookies.get('filter');
+  }
+  setDefaultFilter();
   cleanupResizer();
   updateBackground();
 })();
