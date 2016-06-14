@@ -239,14 +239,14 @@
 //
   var browserCookies = require('browser-cookies');
   function setExpiresDate() {
-    var toDay = new Date();
+    var today = new Date();
     var birthDay = 19;
     var birthMonth = 11;
-    var birthDate = new Date(toDay.getFullYear(), birthMonth, birthDay);
-    if (toDay < birthDate) {
-      birthDate.setFullYear(toDay.getFullYear() - 1);
+    var birthDate = new Date(today.getFullYear(), birthMonth, birthDay);
+    if (today < birthDate) {
+      birthDate.setFullYear(today.getFullYear() - 1);
     }
-    var expiresDate = +toDay + (toDay - birthDate);
+    var expiresDate = +today + (today - birthDate);
     var formattedExpiresDate = new Date(expiresDate).toUTCString();
     return formattedExpiresDate;
   }
