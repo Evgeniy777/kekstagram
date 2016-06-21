@@ -34,7 +34,23 @@ function showFilterBlock() {
 }
 showFilterBlock();
 //
-var arr = window.pictures;
-arr.forEach(function(picture) {
-  getPictureElement(picture, picturesContainer);
-});
+var PICTURES_LOAD_URL = 'https://o0.github.io/assets/json/pictures.json';
+var getPictures = function(callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.onload = function(evt) {
+    var loadedData = JSON.parse(evt.target.response);
+    callback(loadedData);
+  };
+  xhr.open('GET', PICTURES_LOAD_URL);
+  xhr.send();
+};
+var renderPictures = function(pictures) {
+  pictures.forEach(function(picture) {
+    getPictureElement(picture, picturesContainer);
+  });
+};
+
+var loadPicturesCallback = function(picturesList) {
+  renderPictures(picturesList);
+};
+getPictures(loadPicturesCallback);

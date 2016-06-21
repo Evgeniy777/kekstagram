@@ -89,11 +89,24 @@
 </template>
 <script>
   var pictures = [];
+  var xhr = new XMLHttpRequest();
   var __picturesLoadCallback = function(data) {
     pictures = data;
   }
+  xhr.open('GET', 'https://o0.github.io/assets/json/pictures.json');
+  xhr.onload = function(evt) {
+    var requestObj = evt.target;
+    var response = requestObj.response;
+    pictures = JSON.parse(response);    
+    console.log(pictures);
+  };
+  xhr.onerror = function(evt) {
+    console.warn('something is wrong');
+  };
+  xhr.timeout = 10000;
+  xhr.send();
 </script>
-<script src="//up.htmlacademy.ru/assets/js_intensive/jsonp/pictures.js"></script>
+<!--<script src="//up.htmlacademy.ru/assets/js_intensive/jsonp/pictures.js"></script>-->
 <script src="js/main.js"></script>
 </body>
 </html>
