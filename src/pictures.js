@@ -37,11 +37,25 @@ showFilterBlock();
 var PICTURES_LOAD_URL = 'https://o0.github.io/assets/json/pictures.json';
 var getPictures = function(callback) {
   var xhr = new XMLHttpRequest();
+  xhr.open('GET', PICTURES_LOAD_URL);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState != 4) {
+      picturesContainer.classList.add("pictures-loading");
+    } else {
+      picturesContainer.classList.remove("pictures-loading");
+    }
+  };
   xhr.onload = function(evt) {
     var loadedData = JSON.parse(evt.target.response);
     callback(loadedData);
   };
-  xhr.open('GET', PICTURES_LOAD_URL);
+  xhr.onerror = function() {
+    picturesContainer.classList.add("pictures-failure");
+  }
+  xhr.timeout = 10000;
+  xhr.ontimeout = function() {
+    picturesContainer.classList.add("pictures-failure");
+  };
   xhr.send();
 };
 var renderPictures = function(pictures) {
