@@ -39,10 +39,10 @@ var getPictures = function(callback) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', PICTURES_LOAD_URL);
   xhr.onreadystatechange = function() {
-    if (xhr.readyState != 4) {
-      picturesContainer.classList.add("pictures-loading");
+    if (xhr.readyState !== 4) {
+      picturesContainer.classList.add('pictures-loading');
     } else {
-      picturesContainer.classList.remove("pictures-loading");
+      picturesContainer.classList.remove('pictures-loading');
     }
   };
   xhr.onload = function(evt) {
@@ -50,11 +50,11 @@ var getPictures = function(callback) {
     callback(loadedData);
   };
   xhr.onerror = function() {
-    picturesContainer.classList.add("pictures-failure");
-  }
+    picturesContainer.classList.add('pictures-failure');
+  };
   xhr.timeout = 10000;
   xhr.ontimeout = function() {
-    picturesContainer.classList.add("pictures-failure");
+    picturesContainer.classList.add('pictures-failure');
   };
   xhr.send();
 };
