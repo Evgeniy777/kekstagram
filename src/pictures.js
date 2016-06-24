@@ -1,6 +1,6 @@
 'use strict';
+var filterBlock = document.querySelector('.filters');
 function hideFilterBlock() {
-  var filterBlock = document.querySelector('.filters');
   filterBlock.classList.add('hidden');
 }
 hideFilterBlock();
@@ -29,7 +29,6 @@ var getPictureElement = function(data, container) {
   return element;
 };
 function showFilterBlock() {
-  var filterBlock = document.querySelector('.filters');
   filterBlock.classList.remove('hidden');
 }
 showFilterBlock();
@@ -62,6 +61,20 @@ var renderPictures = function(pictures) {
   pictures.forEach(function(picture) {
     getPictureElement(picture, picturesContainer);
   });
+};
+
+var setFilterEnabled = function(filter) {
+  var filteredPictures = getFilteredPictures(pictures, filter);
+  renderHotels(filteredPictures);
+};
+
+var setFiltrationEnabled = function() {
+  var filters = filterBlock.querySelectorAll('[name="filter"]');
+  for (var i = 0; i < filters.length; i++) {
+    filters[i].onclick = function(evt) {
+      setFilterEnabled(this.id);
+    };
+  }
 };
 
 var loadPicturesCallback = function(picturesList) {
