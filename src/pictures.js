@@ -1,4 +1,5 @@
 'use strict';
+var pictures = [];
 var filterBlock = document.querySelector('.filters');
 function hideFilterBlock() {
   filterBlock.classList.add('hidden');
@@ -50,6 +51,7 @@ var getPictures = function(callback) {
   };
   xhr.onerror = function() {
     picturesContainer.classList.add('pictures-failure');
+    console.warn('something is wrong');
   };
   xhr.timeout = 10000;
   xhr.ontimeout = function() {
