@@ -48,6 +48,7 @@ var getPictures = function(callback) {
   xhr.onload = function(evt) {
     var loadedData = JSON.parse(evt.target.response);
     callback(loadedData);
+    console.log(loadedData);
   };
   xhr.onerror = function() {
     picturesContainer.classList.add('pictures-failure');
@@ -59,25 +60,26 @@ var getPictures = function(callback) {
   };
   xhr.send();
 };
+//
 var renderPictures = function(pictures) {
   pictures.forEach(function(picture) {
     getPictureElement(picture, picturesContainer);
   });
 };
 
-var setFilterEnabled = function(filter) {
-  var filteredPictures = getFilteredPictures(pictures, filter);
-  renderHotels(filteredPictures);
-};
-
-var setFiltrationEnabled = function() {
-  var filters = filterBlock.querySelectorAll('[name="filter"]');
-  for (var i = 0; i < filters.length; i++) {
-    filters[i].onclick = function(evt) {
-      setFilterEnabled(this.id);
-    };
-  }
-};
+//var setFilterEnabled = function(filter) {
+//  var filteredPictures = getFilteredPictures(pictures, filter);
+//  renderHotels(filteredPictures);
+//};
+//
+//var setFiltrationEnabled = function() {
+//  var filters = filterBlock.querySelectorAll('[name="filter"]');
+//  for (var i = 0; i < filters.length; i++) {
+//    filters[i].onclick = function(evt) {
+//      setFilterEnabled(this.id);
+//    };
+//  }
+//};
 
 var loadPicturesCallback = function(picturesList) {
   renderPictures(picturesList);
