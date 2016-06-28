@@ -21,6 +21,8 @@ if('content' in templateElement) {
 }
 var getPictureElement = function(data, container) {
   var element = elementToClone.cloneNode(true);
+  element.querySelector('.picture-comments').textContent = data.comments;
+  element.querySelector('.picture-likes').textContent = data.likes;
   var image = new Image();
   image.onload = function(evt) {
     element.querySelector('img').setAttribute('src', evt.target.src);
