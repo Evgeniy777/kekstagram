@@ -1,5 +1,10 @@
 'use strict';
 var pictures = [];
+var Filter = {
+  'POPULAR': 'filter-popular',
+  'NEW': 'filter-new',
+  'DISCUSSED': 'filter-discussed'
+};
 var filterBlock = document.querySelector('.filters');
 function hideFilterBlock() {
   filterBlock.classList.add('hidden');
@@ -62,26 +67,48 @@ var getPictures = function(callback) {
 };
 //
 var renderPictures = function(pictures) {
+  picturesContainer.innerHTML = '';
   pictures.forEach(function(picture) {
     getPictureElement(picture, picturesContainer);
   });
 };
-
-//var setFilterEnabled = function(filter) {
-//  var filteredPictures = getFilteredPictures(pictures, filter);
-//  renderHotels(filteredPictures);
-//};
 //
-//var setFiltrationEnabled = function() {
-//  var filters = filterBlock.querySelectorAll('[name="filter"]');
-//  for (var i = 0; i < filters.length; i++) {
-//    filters[i].onclick = function(evt) {
-//      setFilterEnabled(this.id);
-//    };
-//  }
-//};
-
-var loadPicturesCallback = function(picturesList) {
-  renderPictures(picturesList);
+var getFilteredPictures = function(pictures, filter) {
+  var picturesToFilter = pictures.slice(0);
+  
+  switch(filter) {
+    case 'filter-popular': 
+      picturesToFilter.sort(function(a,b) {
+        return a.comments - b.comments;
+      });
+      break;      
+  }
+  
+  return picturesToFilter;
 };
-getPictures(loadPicturesCallback);
+//
+var setFilterEnabled = function(filter) {
+  var filteredPictures = getFilteredPictures(pictures, filter);
+  renderPictures(filteredPictures);
+  console.log('asdsd');
+};
+//
+var setFiltrationEnabled = function() {
+  var filters = filterBlock.querySelectorAll('[name="filter"]');
+  for (var i = 0; i < filters.length; i++) {
+    filters[i].onclick = function(evt) {
+      setFilterEnabled(this.id);
+      console.log(this.id);
+    };
+  }
+};
+
+//var loadPicturesCallback = function(picturesList) {
+//  renderPictures(picturesList);
+//};
+//getPictures(loadPicturesCallback);
+getPictures(function(loadedPictures) {
+  pictures = loadedPictures;
+  setFiltrationEnabled();
+  renderPictures(pictures);
+});
