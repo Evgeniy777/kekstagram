@@ -80,6 +80,7 @@ var getFilteredPictures = function(pictures, filter) {
 
   switch(filter) {
     case Filter.POPULAR:
+      console.log(picturesToFilter);
       break;
     case Filter.NEW:
       picturesToFilter = picturesToFilter.filter(function(a) {
@@ -96,10 +97,21 @@ var getFilteredPictures = function(pictures, filter) {
       picturesToFilter.sort(function(a, b) {
         return b.comments - a.comments;
       });
+      console.log(picturesToFilter);
       break;
+  }
+  if (picturesToFilter.length === 0) {
+    var filterErrorMessageBox = document.createElement('div');
+    filterErrorMessageBox.style.color = '#bd4147';
+    filterErrorMessageBox.innerHTML = 'Что-то пошло <i>не так</i>';
+    filterBlock.insertBefore(filterErrorMessageBox, null);
+    console.log("error");
   }
 
   return picturesToFilter;
+};
+var emptyFilterResult = function(picturesToFilter) {
+
 };
 //
 var setFilterEnabled = function(filter) {
@@ -120,5 +132,6 @@ var setFiltrationEnabled = function() {
 getPictures(function(loadedPictures) {
   pictures = loadedPictures;
   setFiltrationEnabled();
+  emptyFilterResult();
   renderPictures(pictures);
 });
