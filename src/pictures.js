@@ -75,38 +75,46 @@ var renderPictures = function(pictures) {
 //
 var getFilteredPictures = function(pictures, filter) {
   var picturesToFilter = pictures.slice(0);
-  
+
   switch(filter) {
-    case 'filter-popular': 
-      picturesToFilter.sort(function(a,b) {
-        return a.comments - b.comments;
+    case Filter.POPULAR:
+      break;
+    case Filter.NEW:
+      picturesToFilter = picturesToFilter.filter(function(a) {
+        var lastFourDays = 4 * 24 * 60 * 60 * 1000;
+        var imgDate = new Date(a.date);
+        return imgDate >= (Date.now() - lastFourDays) && imgDate < Date.now();
       });
-      break;      
+      picturesToFilter.sort(function(a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
+      console.log(picturesToFilter);
+      break;
+    case Filter.DISCUSSED:
+      picturesToFilter.sort(function(a, b) {
+        return b.comments - a.comments;
+      });
+      break;
   }
-  
+
   return picturesToFilter;
 };
 //
 var setFilterEnabled = function(filter) {
   var filteredPictures = getFilteredPictures(pictures, filter);
   renderPictures(filteredPictures);
-  console.log('asdsd');
 };
 //
 var setFiltrationEnabled = function() {
   var filters = filterBlock.querySelectorAll('[name="filter"]');
   for (var i = 0; i < filters.length; i++) {
-    filters[i].onclick = function(evt) {
+    filters[i].onclick = function() {
       setFilterEnabled(this.id);
       console.log(this.id);
     };
   }
 };
 
-//var loadPicturesCallback = function(picturesList) {
-//  renderPictures(picturesList);
-//};
-//getPictures(loadPicturesCallback);
 getPictures(function(loadedPictures) {
   pictures = loadedPictures;
   setFiltrationEnabled();
