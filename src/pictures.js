@@ -5,6 +5,8 @@ var Filter = {
   'NEW': 'filter-new',
   'DISCUSSED': 'filter-discussed'
 };
+var LAST_FOUR_DAYS = 4 * 24 * 60 * 60 * 1000;
+var TIME_OUT = 10000;
 var filterBlock = document.querySelector('.filters');
 function hideFilterBlock() {
   filterBlock.classList.add('hidden');
@@ -61,7 +63,7 @@ var getPictures = function(callback) {
     picturesContainer.classList.add('pictures-failure');
     console.warn('something is wrong');
   };
-  xhr.timeout = 10000;
+  xhr.timeout = TIME_OUT;
   xhr.ontimeout = function() {
     picturesContainer.classList.add('pictures-failure');
   };
@@ -84,9 +86,8 @@ var getFilteredPictures = function(pictures, filter) {
       break;
     case Filter.NEW:
       picturesToFilter = picturesToFilter.filter(function(a) {
-        var lastFourDays = 4 * 24 * 60 * 60 * 1000;
         var imgDate = new Date(a.date);
-        return imgDate >= (Date.now() - lastFourDays) && imgDate < Date.now();
+        return imgDate >= (Date.now() - LAST_FOUR_DAYS) && imgDate < Date.now();
       });
       picturesToFilter.sort(function(a, b) {
         return new Date(b.date) - new Date(a.date);
@@ -100,38 +101,37 @@ var getFilteredPictures = function(pictures, filter) {
       console.log(picturesToFilter);
       break;
   }
+  
+  var filterErrorMessageBox = document.createElement('div');
   if (picturesToFilter.length === 0) {
-    var filterErrorMessageBox = document.createElement('div');
+    filterErrorMessageBox.classList.add('message-box');
     filterErrorMessageBox.style.color = '#bd4147';
     filterErrorMessageBox.innerHTML = 'Что-то пошло <i>не так</i>';
     filterBlock.insertBefore(filterErrorMessageBox, null);
-    console.log("error");
+    console.log('error');
+  } else {
+    document.querySelector('.message-box').remove();
+    console.log('ok');
   }
-
   return picturesToFilter;
-};
-var emptyFilterResult = function(picturesToFilter) {
-
 };
 //
 var setFilterEnabled = function(filter) {
   var filteredPictures = getFilteredPictures(pictures, filter);
   renderPictures(filteredPictures);
 };
-//
+
 var setFiltrationEnabled = function() {
-  var filters = filterBlock.querySelectorAll('[name="filter"]');
-  for (var i = 0; i < filters.length; i++) {
-    filters[i].onclick = function() {
-      setFilterEnabled(this.id);
-      console.log(this.id);
-    };
-  }
+    filterBlock.addEventListener('click', function(evt) {
+      if (evt.target.classList.contains('filters-radio')) {
+        setFilterEnabled(evt.target.id);
+        console.log(evt.target.id);
+      }
+    });
 };
 
 getPictures(function(loadedPictures) {
   pictures = loadedPictures;
   setFiltrationEnabled();
-  emptyFilterResult();
   renderPictures(pictures);
 });
